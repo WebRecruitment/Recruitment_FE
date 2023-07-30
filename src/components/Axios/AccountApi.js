@@ -24,5 +24,15 @@ const AccountApi = {
     const url = `/Accounts/GetAccountsById?id=${id}`;
     return axiosApi.get(url, config);
   },
+  updateStatusAccount: async (form, token) => {
+    const config = {
+      headers: {
+        accept: "text/plain",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const url = `/Accounts/ChangeStatusAccount`;
+    return axiosApi.patch(url, form, config);
+  },
 };
 export default AccountApi;

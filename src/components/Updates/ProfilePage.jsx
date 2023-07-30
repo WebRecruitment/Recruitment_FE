@@ -28,36 +28,6 @@ const ProfilePage = () => {
         {/* GeneralInfoForm */}
         <Grid item xs={12} sm={8}>
           <GeneralInfoForm />
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Column 1</TableCell>
-                  <TableCell>Column 2</TableCell>
-                  <TableCell>Column 3</TableCell>
-                  <TableCell>Column 3</TableCell>
-                  <TableCell>Column 3</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                <TableRow>
-                  <TableCell>Row 1, Cell 1</TableCell>
-                  <TableCell>Row 1, Cell 2</TableCell>
-                  <TableCell>Row 1, Cell 3</TableCell>
-                  <TableCell>Row 1, Cell 3</TableCell>
-                  <TableCell>Row 1, Cell 3</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell>Row 2, Cell 1</TableCell>
-                  <TableCell>Row 2, Cell 2</TableCell>
-                  <TableCell>Row 2, Cell 3</TableCell>
-                  <TableCell>Row 2, Cell 3</TableCell>
-                  <TableCell>Row 2, Cell 3</TableCell>
-                </TableRow>
-                {/* Thêm các dòng dữ liệu khác nếu cần */}
-              </TableBody>
-            </Table>
-          </TableContainer>
         </Grid>
 
         <Grid item xs={12} sm={4}>

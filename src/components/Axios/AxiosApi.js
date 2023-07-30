@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosApi = axios.create({
-  baseURL: "https://recruitmentwebapi.azurewebsites.net/api",
+  baseURL: "https://localhost:7223/api/",
   Headers: { "Content-Type": "application/json" },
 });
 

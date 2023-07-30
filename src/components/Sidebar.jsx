@@ -54,6 +54,7 @@ const Sidebar = () => {
       code["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
     const accountId = code.sub;
     localStorage.setItem("Id", accountId);
+    // localStorage.setItem();
     setUserRole(role);
     // console.log(accountId);
     // console.log(role);

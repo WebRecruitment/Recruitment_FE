@@ -8,7 +8,6 @@ import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
 import AuthenApi from "../Axios/AuthenApi";
 import Typography from "@mui/material/Typography"; // Import Typography
-
 const theme = createTheme({
   palette: {
     primary: {
@@ -19,43 +18,7 @@ const theme = createTheme({
     },
   },
 });
-
-export default function Login() {
-  const [error, setError] = useState(); // Initialize with null
-  const [formData, setFormData] = useState({
-    username: "",
-    password: "",
-  });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
-    try {
-      const token = await AuthenApi.Login(formData);
-
-      if (token != null) {
-        localStorage.setItem("localtoken", token.data.data.token);
-        console.log("Login successful! Token:", token.data.data.token);
-        navigate("/dashboard");
-      } else {
-        setError(token.message);
-        console.log(token.message);
-      }
-    } catch (error) {
-      console.error("Login error:", error.response.data.Messages);
-      setError(error.response.data.Messages);
-    }
-  };
-
+export default function Register() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -93,7 +56,7 @@ export default function Login() {
               display: "flex",
               flexDirection: "column",
             }}
-            onSubmit={handleSubmit}
+            // onSubmit={handleSubmit}
           >
             <h2
               style={{
@@ -109,8 +72,8 @@ export default function Login() {
               label="Username"
               variant="outlined"
               name="username"
-              value={formData.username}
-              onChange={handleInputChange}
+              //   value={formData.username}
+              //   onChange={handleInputChange}
               style={{ marginTop: "35px" }}
               fullWidth
               required
@@ -120,26 +83,26 @@ export default function Login() {
               variant="outlined"
               type="password"
               name="password"
-              value={formData.password}
-              onChange={handleInputChange}
+              //   value={formData.password}
+              //   onChange={handleInputChange}
               style={{ marginTop: "20px" }}
               fullWidth
               required
             />
-            <div
+            {/* <div
               style={{
                 display: "flex",
                 justifyContent: "space-between",
                 marginTop: "20px",
               }}
             >
-              <Link href="/register" variant="body2" color="secondary">
+              <Link href="#" variant="body2" color="secondary">
                 Forgot Password
               </Link>
               <Link href="#" variant="body2" color="secondary">
                 Sign Up
               </Link>
-            </div>
+            </div> */}
             <Button
               type="submit"
               variant="contained"
@@ -148,7 +111,7 @@ export default function Login() {
             >
               Login
             </Button>
-            {error && (
+            {/* {error && (
               <Typography
                 variant="body"
                 color="error"
@@ -156,7 +119,7 @@ export default function Login() {
               >
                 {error}
               </Typography>
-            )}
+            )} */}
           </form>
         </div>
       </Container>

@@ -20,11 +20,12 @@ import {
   Box,
   Grid,
   Tooltip,
+  Select,
+  MenuItem,
 } from "@mui/material";
 import "../StaffCompany/Staff.css";
 import AccountApi from "../Axios/AccountApi";
 import usePagination from "../../Data/Pagination";
-
 const makeStyle = (status) => {
   if (status === "ACTIVE" || status === "ACCPET") {
     return {
@@ -61,9 +62,11 @@ const makeRole = (role) => {
     };
   }
 };
+const statusOptions = ["ACTIVE", "INACTIVE", "ACCEPT"];
 
-export default function Staff() {
+export default function Staff({ accountItems }) {
   const [accounts, setAccounts] = useState([]);
+
   // State để xác định xem Dialog có mở hay không
   const [open, setOpen] = useState(false);
   // State để lưu trữ thông tin tài khoản
@@ -98,22 +101,50 @@ export default function Staff() {
       }
       const response = await AccountApi.getAllAccounts(localToken);
       // const response = await AccountApi.getAccountById(Id, localToken);
-      console.log("API Response:", [response.data.data]);
+      // console.log("API Response:", [response.data.data]);
+      console.log("API Response:", response.data.data);
       // setAccounts([response.data.data]); // Update state with the fetched accounts
       setAccounts(response.data.data); // Update state with the fetched accounts
     } catch (error) {
       console.error("API Error:", error);
     }
   };
+  const handleStatusChange = async (accountId, newStatus) => {
+    try {
+      var admin = localStorage.getItem("AdminId");
+      var token = localStorage.getItem("localtoken");
+      const formData = new FormData();
+      formData.append("accountId", accountId); // Using the accountId from the account prop
+      formData.append("adminId", admin); // Using the adminId from the account prop
+      formData.append("status", newStatus);
+
+      const response = await AccountApi.updateStatusAccount(formData, token);
+      // Handle response data if needed
+      setAccounts((prevAccounts) =>
+        prevAccounts.map((account) =>
+          account.accountId === accountId
+            ? { ...account, status: newStatus }
+            : account
+        )
+      );
+      console.log(accountId, admin, newStatus);
+      console.log(response.data.data.status);
+    } catch (error) {
+      // Handle error if needed
+      console.error(error);
+    }
+  };
   useEffect(() => {
     const localToken = localStorage.getItem("localtoken");
     const Id = localStorage.getItem("Id");
     console.log(`Local Token: ${localToken} \nAccountId: ${Id}`);
+    console.log("AdminId: ", localStorage.getItem("AdminId"));
+
     fetchAccounts(Id, localToken);
   }, []);
 
   let [page, setPage] = useState(1);
-  const PER_PAGE = 8;
+  const PER_PAGE = 7;
   const count = Math.ceil(accounts.length / PER_PAGE);
 
   // const sortAccountsByDateDesc = (a, b) => {
@@ -160,41 +191,58 @@ export default function Staff() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {_Data.currentData().map((account) => (
-                  <TableRow
-                    key={`${account.accountId}`}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    {/* <TableCell component="th" scope="row"> */}
-                    <TableCell>{account.accountId}</TableCell>
-                    <TableCell>{account.username}</TableCell>
-                    <TableCell>
-                      {account.firstName} {account.lastName}
-                    </TableCell>
-                    <TableCell>{account.email}</TableCell>
-                    <TableCell>
-                      <Tooltip
-                        className="status"
-                        style={makeRole(account.role)}
-                      >
-                        {account.role}
-                      </Tooltip>
-                    </TableCell>
-                    <TableCell>{formatDate(account.date)}</TableCell>
-                    <TableCell>
-                      <Typography
-                        className="status"
-                        style={makeStyle(account.status)}
-                      >
-                        {account.status}
-                      </Typography>
-                    </TableCell>
+                {
+                  (accountItems = _Data.currentData().map((account) => (
+                    <TableRow
+                      key={`${account.accountId}`}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      {/* <TableCell component="th" scope="row"> */}
+                      <TableCell>{account.accountId}</TableCell>
+                      <TableCell>{account.username}</TableCell>
+                      <TableCell>
+                        {account.firstName} {account.lastName}
+                      </TableCell>
+                      <TableCell>{account.email}</TableCell>
+                      <TableCell>
+                        <Tooltip
+                          className="status"
+                          style={makeRole(account.role)}
+                        >
+                          {account.role}
+                        </Tooltip>
+                      </TableCell>
+                      <TableCell>{formatDate(account.date)}</TableCell>
+                      <TableCell>
+                        <Select
+                          value={account.status}
+                          onChange={(event) => {
+                            const newStatus = event.target.value;
+                            handleStatusChange(account.accountId, newStatus);
+                          }}
+                          className="status"
+                          style={{
+                            ...makeStyle(account.status),
+                            borderRadius: "10px", // Độ cong viền tròn
+                            width: "120px", // Độ rộng thu nhỏ
+                            fontSize: "12px", // Cỡ chữ nhỏ
+                            height: "50px",
+                          }}
+                        >
+                          {statusOptions.map((status) => (
+                            <MenuItem key={status} value={status}>
+                              {status}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </TableCell>
 
-                    <TableCell className="Details">
-                      <ButtonBase>SHOW</ButtonBase>
-                    </TableCell>
-                  </TableRow>
-                ))}
+                      <TableCell className="Details">
+                        <ButtonBase>SHOW</ButtonBase>
+                      </TableCell>
+                    </TableRow>
+                  )))
+                }
               </TableBody>
             </Table>
           </TableContainer>

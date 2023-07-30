@@ -52,6 +52,10 @@ export const SidebarData = [
     icon: UilChart,
     heading: "Analytics",
   },
+  {
+    icon: UilChart,
+    heading: "Analytics",
+  },
 ];
 export const TableStaff = [
   {

@@ -8,6 +8,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import RightSide from "./components/RigtSide/RightSide";
+import Register from "./components/Authen/Register";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Routes>
         <div className="AppGlass">
           <Routes>
