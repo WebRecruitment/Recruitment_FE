@@ -15,25 +15,29 @@ const GeneralInfoForm = () => {
   const [birthday, setBirthday] = useState(null);
   const [accounts, setAccounts] = useState([]);
 
-  const fetchInfor = async (Id, localToken) => {
-    // setToken(localStorage.getItem("localtoken"));
+  const fetchInfor = async (Id, localToken, role) => {
     try {
       if (!{ localToken }) {
         console.log("No token found in localStorage.");
         return;
       }
-      // const response = await AccountApi.getAllAccounts(localToken);
-      const response = await AccountApi.getAccountById(Id, localToken);
+      var response;
+      response = await AccountApi.getAccountById(Id, localToken);
+
       console.log("API Response: ", [response.data.data]);
       console.log("ADMINID: ", response.data.data.adminId);
       localStorage.setItem("AdminId", response.data.data.adminId);
-      console.log("COMPANYID: ", response.data.data.companyId);
-      localStorage.setItem("COMPANYID", response.data.data.companyId);
-      console.log("HRID: ", response.data.data.adminId);
-      localStorage.setItem("HRID", response.data.data.adminId);
-      console.log("INTERVIEWERID: ", response.data.data.adminId);
-      localStorage.setItem("INTERVIEWERID", response.data.data.adminId);
+      // if (localToken.ROLE === "COMPANY") {
+      //   response = await AccountApi.getAccountById(Id, localToken);
+      //   console.log("COMPANYID: ", response.data.data.companyId);
+      //   localStorage.setItem("COMPANYID", response.data.data.companyId);
+      // }
+      // console.log("HRID: ", response.data.data.adminId);
+      // localStorage.setItem("HRID", response.data.data.adminId);
+      // console.log("INTERVIEWERID: ", response.data.data.adminId);
+      // localStorage.setItem("INTERVIEWERID", response.data.data.adminId);
       setAccounts([response.data.data]); // Update state with the fetched accounts
+
       // setAccounts(response.data.data); // Update state with the fetched accounts
     } catch (error) {
       console.error("API Error:", error);
@@ -45,7 +49,8 @@ const GeneralInfoForm = () => {
     const localToken = localStorage.getItem("localtoken");
     const Id = localStorage.getItem("Id");
     console.log(`Local Token: ${localToken} \nAccountId: ${Id}`);
-    fetchInfor(Id, localToken);
+    const role = localStorage.getItem("ROLE");
+    fetchInfor(Id, localToken, role);
   }, []);
   return (
     <Card variant="outlined">

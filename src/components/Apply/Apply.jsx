@@ -40,6 +40,7 @@ const makeStatus = (status) => {
     };
   }
 };
+
 export default function Apply(ApplyItems) {
   const [apply, setApply] = useState([]);
   useEffect(() => {
@@ -55,14 +56,13 @@ export default function Apply(ApplyItems) {
       console.error(error);
     }
   };
-  const [open, setOpen] = useState(false);
   const [selectedApply, setSelectedApply] = useState(null);
+  const [open, setOpen] = useState(false);
 
   const handleOpen = (applys) => {
     setSelectedApply(applys);
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
   };

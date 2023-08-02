@@ -14,6 +14,7 @@ import RightSide from "./RigtSide/RightSide";
 import Post from "./Post/Post";
 import jwt_decode from "jwt-decode";
 import ProfilePage from "./Updates/ProfilePage";
+import Position from "./Position/Position";
 
 const Sidebar = () => {
   const [selected, setSelected] = useState(0);
@@ -54,6 +55,7 @@ const Sidebar = () => {
       code["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
     const accountId = code.sub;
     localStorage.setItem("Id", accountId);
+    localStorage.setItem("ROLE", role);
     // localStorage.setItem();
     setUserRole(role);
     // console.log(accountId);
@@ -115,7 +117,7 @@ const Sidebar = () => {
       </motion.div>
 
       {selected === 0 && <MainDash />}
-      {selected === 1 && <MainDash />}
+      {selected === 1 && <Position />}
       {selected === 2 && <Staff />}
       {selected === 3 && <Job />}
       {selected === 4 && <Post />}
