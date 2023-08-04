@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./Sidebar.css";
 import Logo from "../imgs/logo.png";
 import { UilSignOutAlt } from "@iconscout/react-unicons";
-import { SidebarData } from "../Data/Data";
+import { SidebarDataAdmin } from "../Data/Data";
+import { SidebarDataCompany } from "../Data/Data";
 import { UilBars } from "@iconscout/react-unicons";
 import { motion } from "framer-motion";
 import MainDash from "./MainDash/MainDash";
@@ -46,7 +47,35 @@ const Sidebar = () => {
     }
   };
   const [id, setId] = useState("");
-
+  const currentSidebarData =
+    userRole === "ADMIN" ? SidebarDataAdmin : SidebarDataCompany;
+  const sidebarComponentsAdmin = [
+    <MainDash />,
+    <Staff />,
+    <Job />,
+    <Post />,
+    <Apply />,
+    <ProfilePage />,
+  ];
+  const sidebarComponentsCompany = [
+    <MainDash />,
+    <Position />,
+    <Job />,
+    <Post />,
+    <Apply />,
+    <ProfilePage />,
+  ];
+  const renderRightSide = () => {
+    if (userRole === "ADMIN") {
+      return selected < 7 && <RightSide />;
+    } else if (userRole === "COMPANY") {
+      // Add your logic to show RightSide component for COMPANY role
+      // For example:
+      return selected === 1 && <RightSide />;
+    } else {
+      return null; // If userRole is neither ADMIN nor COMPANY, don't show RightSide
+    }
+  };
   useEffect(() => {
     // Kiểm tra nếu selected === 0 thì hiển thị "RightSide"
     // var session = decodeToken(tokenFromSessionStorage);
@@ -54,13 +83,13 @@ const Sidebar = () => {
     const role =
       code["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
     const accountId = code.sub;
-    localStorage.setItem("Id", accountId);
+    localStorage.setItem("AccountId", accountId);
     localStorage.setItem("ROLE", role);
     // localStorage.setItem();
     setUserRole(role);
     // console.log(accountId);
     // console.log(role);
-    setShowRightSide(selected > -1);
+    // setShowRightSide(selected < 7);
   }, [selected, userRole]);
 
   const handleSidebarItemClick = (index) => {
@@ -68,11 +97,14 @@ const Sidebar = () => {
     setSelected(index);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmitLogOut = (e) => {
     e.preventDefault();
+    localStorage.clear(); // Removes all data from localStorage
+    sessionStorage.clear();
     navigate("/");
   };
-
+  const ADMIN = "Admin";
+  const COMPANY = "Company";
   console.log(window.innerWidth);
   return (
     <>
@@ -92,12 +124,16 @@ const Sidebar = () => {
         <div className="logo">
           <img src={Logo} alt="logo" />
           <span>
-            C<span>o</span>mp<span>a</span>ny
+            {userRole === "ADMIN" ? (
+              <span className="admin">{ADMIN}</span>
+            ) : (
+              <span className="company">{COMPANY}</span>
+            )}
           </span>
         </div>
 
         <div className="menu">
-          {SidebarData.map((item, index) => {
+          {currentSidebarData.map((item, index) => {
             return (
               <div
                 className={selected === index ? "menuItem active" : "menuItem"}
@@ -111,19 +147,15 @@ const Sidebar = () => {
           })}
           {/* signoutIcon */}
           <div className="menuItem">
-            <UilSignOutAlt onClick={handleSubmit}></UilSignOutAlt>
+            <UilSignOutAlt onClick={handleSubmitLogOut}></UilSignOutAlt>
           </div>
         </div>
       </motion.div>
 
-      {selected === 0 && <MainDash />}
-      {selected === 1 && <Position />}
-      {selected === 2 && <Staff />}
-      {selected === 3 && <Job />}
-      {selected === 4 && <Post />}
-      {selected === 5 && <Apply />}
-      {selected === 6 && <ProfilePage />}
-      {showRightSide && <RightSide />}
+      {userRole === "ADMIN"
+        ? sidebarComponentsAdmin[selected]
+        : sidebarComponentsCompany[selected]}
+      {renderRightSide()}
     </>
   );
 };

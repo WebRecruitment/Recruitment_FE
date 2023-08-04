@@ -5,11 +5,17 @@ import {
   UilUsersAlt,
   UilPackage,
   UilChart,
+  UilAirplay,
+  UilUser,
   UilSignOutAlt,
+  UilUsdSquare,
+  UilMoneyWithdrawal,
+  UilReceipt,
+  UilSchedule,
+  UilLocationPoint,
 } from "@iconscout/react-unicons";
 
 // Analytics Cards imports
-import { UilUsdSquare, UilMoneyWithdrawal } from "@iconscout/react-unicons";
 import { keyboard } from "@testing-library/user-event/dist/keyboard";
 
 // Recent Card Imports
@@ -19,14 +25,10 @@ import img3 from "../imgs/img3.png";
 import { useState } from "react";
 
 // Sidebar Data
-export const SidebarData = [
+export const SidebarDataAdmin = [
   {
     icon: UilEstate,
     heading: "Dashboard",
-  },
-  {
-    icon: UilClipboardAlt,
-    heading: "Events",
   },
   {
     icon: UilUsersAlt,
@@ -37,24 +39,50 @@ export const SidebarData = [
     heading: "Jobs",
   },
   {
-    icon: UilPackage,
+    icon: UilReceipt,
     heading: "Posts",
   },
   {
-    icon: UilClipboardAlt,
+    icon: UilSchedule,
     heading: "Apply",
   },
   {
-    icon: UilChart,
+    icon: UilUser,
     heading: "Profile",
   },
   {
-    icon: UilChart,
+    icon: UilPackage,
     heading: "Analytics",
   },
   {
     icon: UilChart,
     heading: "Analytics",
+  },
+];
+export const SidebarDataCompany = [
+  {
+    icon: UilEstate,
+    heading: "Dashboard",
+  },
+  {
+    icon: UilLocationPoint,
+    heading: "Position",
+  },
+  {
+    icon: UilClipboardAlt,
+    heading: "Jobs",
+  },
+  {
+    icon: UilReceipt,
+    heading: "Posts",
+  },
+  {
+    icon: UilSchedule,
+    heading: "Apply",
+  },
+  {
+    icon: UilUser,
+    heading: "Profile",
   },
 ];
 export const TableStaff = [

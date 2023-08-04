@@ -62,7 +62,7 @@ const makeRole = (role) => {
     };
   }
 };
-const statusOptions = ["ACTIVE", "INACTIVE", "ACCEPT"];
+const statusOptions = ["ACTIVE", "INACTIVE", "ACCEPT", "REQUEST"];
 
 export default function Staff({ accountItems }) {
   const [accounts, setAccounts] = useState([]);
@@ -131,12 +131,12 @@ export default function Staff({ accountItems }) {
       console.log(response.data.data.status);
     } catch (error) {
       // Handle error if needed
-      console.error(error);
+      console.error(error.message);
     }
   };
   useEffect(() => {
     const localToken = localStorage.getItem("localtoken");
-    const Id = localStorage.getItem("Id");
+    const Id = localStorage.getItem("AccountId");
     console.log(`Local Token: ${localToken} \nAccountId: ${Id}`);
     console.log("AdminId: ", localStorage.getItem("AdminId"));
 
@@ -224,7 +224,7 @@ export default function Staff({ accountItems }) {
                           style={{
                             ...makeStyle(account.status),
                             borderRadius: "10px", // Độ cong viền tròn
-                            width: "120px", // Độ rộng thu nhỏ
+                            width: "121px", // Độ rộng thu nhỏ
                             fontSize: "12px", // Cỡ chữ nhỏ
                             height: "50px",
                           }}

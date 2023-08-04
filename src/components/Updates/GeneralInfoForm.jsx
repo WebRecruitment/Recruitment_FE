@@ -10,7 +10,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import AccountApi from "../Axios/AccountApi";
-
+import CompanyApi from "../Axios/CompanyApi";
 const GeneralInfoForm = () => {
   const [birthday, setBirthday] = useState(null);
   const [accounts, setAccounts] = useState([]);
@@ -22,16 +22,18 @@ const GeneralInfoForm = () => {
         return;
       }
       var response;
-      response = await AccountApi.getAccountById(Id, localToken);
-
-      console.log("API Response: ", [response.data.data]);
-      console.log("ADMINID: ", response.data.data.adminId);
-      localStorage.setItem("AdminId", response.data.data.adminId);
-      // if (localToken.ROLE === "COMPANY") {
-      //   response = await AccountApi.getAccountById(Id, localToken);
-      //   console.log("COMPANYID: ", response.data.data.companyId);
-      //   localStorage.setItem("COMPANYID", response.data.data.companyId);
-      // }
+      if (role === "ADMIN") {
+        response = await AccountApi.getAccountById(Id, localToken);
+        console.log("API Response: ", [response.data.data]);
+        console.log("ADMINID: ", response.data.data.adminId);
+        localStorage.setItem("AdminId", response.data.data.adminId);
+      }
+      if (role === "COMPANY") {
+        response = await CompanyApi.getCompanyById(Id, localToken);
+        console.log("API Response: ", response.data.data);
+        console.log("COMPANYID: ", response.data.data.companyId);
+        localStorage.setItem("COMPANYID", response.data.data.companyId);
+      }
       // console.log("HRID: ", response.data.data.adminId);
       // localStorage.setItem("HRID", response.data.data.adminId);
       // console.log("INTERVIEWERID: ", response.data.data.adminId);
@@ -47,7 +49,7 @@ const GeneralInfoForm = () => {
 
   useEffect(() => {
     const localToken = localStorage.getItem("localtoken");
-    const Id = localStorage.getItem("Id");
+    const Id = localStorage.getItem("AccountId");
     console.log(`Local Token: ${localToken} \nAccountId: ${Id}`);
     const role = localStorage.getItem("ROLE");
     fetchInfor(Id, localToken, role);

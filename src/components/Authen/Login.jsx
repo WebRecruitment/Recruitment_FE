@@ -133,10 +133,10 @@ export default function Login() {
                 marginTop: "20px",
               }}
             >
-              <Link href="/register" variant="body2" color="secondary">
+              <Link href="#" variant="body2" color="secondary">
                 Forgot Password
               </Link>
-              <Link href="#" variant="body2" color="secondary">
+              <Link href="/register" variant="body2" color="secondary">
                 Sign Up
               </Link>
             </div>
